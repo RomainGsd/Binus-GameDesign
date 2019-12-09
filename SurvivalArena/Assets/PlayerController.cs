@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -18,18 +18,19 @@ public class PlayerController : MonoBehaviour
     {
         float verticalInput = Input.GetAxis("Vertical");
         float horizontalInput = Input.GetAxis("Horizontal");
+        float shootInput = Input.GetAxis("Fire1");
 
         Vector3 movement = new Vector3(horizontalInput * speed * Time.deltaTime, verticalInput * speed * Time.deltaTime, 0);
 
-        transform.position = transform.position + movement;
+        transform.position += movement;
 
+        if (Mathf.Ceil(Mathf.Abs(shootInput)) != 0)
+            animator.SetBool("IsShooting", true);
+        else if (shootInput == 0)
+            animator.SetBool("IsShooting", false);
         if (Mathf.Ceil(Mathf.Abs(verticalInput)) != 0 || Mathf.Ceil(Mathf.Abs(horizontalInput)) != 0)
-        {
             animator.SetBool("IsMoving", true);
-        }
         if (verticalInput == 0 && horizontalInput == 0)
-        {
             animator.SetBool("IsMoving", false);
-        }
     }
 }
