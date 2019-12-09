@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     public float speed = 15;
     public Animator animator;
+    public Camera cam;
+    public Rigidbody2D rb;
 
     void Start()
     {
@@ -19,6 +21,12 @@ public class PlayerController : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
         float horizontalInput = Input.GetAxis("Horizontal");
         float shootInput = Input.GetAxis("Fire1");
+        Vector2 mousePos;
+
+        mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 lookDir = mousePos - rb.position;
+        float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
+        rb.rotation = angle;
 
         Vector3 movement = new Vector3(horizontalInput * speed * Time.deltaTime, verticalInput * speed * Time.deltaTime, 0);
 
