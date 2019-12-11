@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     public Camera cam;
     public Rigidbody2D rb;
+    Vector2 movement, mousePos;
 
     void Start()
     {
@@ -18,27 +19,27 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float verticalInput = Input.GetAxis("Vertical");
-        float horizontalInput = Input.GetAxis("Horizontal");
+        movement.x = Input.GetAxis("Horizontal");
+        movement.y = Input.GetAxis("Vertical");
         float shootInput = Input.GetAxis("Fire1");
-        Vector2 mousePos;
 
         mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 lookDir = mousePos - rb.position;
-        float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
-        rb.rotation = angle;
-
-        Vector3 movement = new Vector3(horizontalInput * speed * Time.deltaTime, verticalInput * speed * Time.deltaTime, 0);
-
-        transform.position += movement;
 
         if (Mathf.Ceil(Mathf.Abs(shootInput)) != 0)
             animator.SetBool("IsShooting", true);
         else if (shootInput == 0)
             animator.SetBool("IsShooting", false);
-        if (Mathf.Ceil(Mathf.Abs(verticalInput)) != 0 || Mathf.Ceil(Mathf.Abs(horizontalInput)) != 0)
+        if (Mathf.Ceil(Mathf.Abs(movement.x)) != 0 || Mathf.Ceil(Mathf.Abs(movement.y)) != 0)
             animator.SetBool("IsMoving", true);
-        if (verticalInput == 0 && horizontalInput == 0)
+        if (movement.x == 0 && movement.y == 0)
             animator.SetBool("IsMoving", false);
+    }
+
+    private void FixedUpdate()
+    {
+        rb.MovePosition(rb.position + movement * speed * Time.fixedDeltaTime);
+        Vector2 lookDir = mousePos - rb.position;
+        float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
+        rb.rotation = angle;
     }
 }
