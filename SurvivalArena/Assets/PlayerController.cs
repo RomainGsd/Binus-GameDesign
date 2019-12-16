@@ -11,10 +11,11 @@ public class PlayerController : MonoBehaviour
     public Camera cam;
     public Rigidbody2D rb;
     Vector2 movement, mousePos;
+    public GameObject hitEffect, gameOverText;
 
     void Start()
     {
-
+        gameOverText.SetActive(false);
     }
 
     // Update is called once per frame
@@ -42,5 +43,21 @@ public class PlayerController : MonoBehaviour
         Vector2 lookDir = mousePos - rb.position;
         float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
         rb.rotation = angle;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag.Equals("Enemy"))
+        {
+            lifePoints -= 10;
+            GameObject effect = Instantiate(hitEffect, transform.position, Quaternion.identity);
+            Destroy(effect, 0.6f);
+            if (lifePoints <= 0)
+            {
+                gameOverText.SetActive(true);
+                SpawnEnemy.spawnAllowed = false;
+                Destroy(gameObject);
+            }
+        }
     }
 }
