@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     // Start is called before the first frame update
     public float speed = 15;
+    public float lifePoints = 100;
     public Animator animator;
     public Camera cam;
     public Rigidbody2D rb;

@@ -19,6 +19,4 @@ public class ScoreManager : MonoBehaviour
     {
         score.text = "Score: " + scoreValue;
     }
-
-
 }
