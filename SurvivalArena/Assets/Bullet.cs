@@ -9,8 +9,11 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        GameObject effect = Instantiate(hitEffect, transform.position, Quaternion.identity);
-        Destroy(effect, 0.6f);
+        if (collision.gameObject.tag.Equals("Enemy"))
+        {
+            GameObject effect = Instantiate(hitEffect, transform.position, Quaternion.identity);
+            Destroy(effect, 0.6f);
+        }
         Destroy(gameObject);
     }
 }
