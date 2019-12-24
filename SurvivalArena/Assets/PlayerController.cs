@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     public float speed = 15;
     public float lifePoints = 100;
+    public int bulletShot = 0;
     public Animator animator;
     public Camera cam;
     public Rigidbody2D rb;
@@ -26,6 +27,9 @@ public class PlayerController : MonoBehaviour
         float shootInput = Input.GetAxis("Fire1");
 
         mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+
+        if(Input.GetMouseButtonDown(0))
+            bulletShot += 1;
 
         if (Mathf.Ceil(Mathf.Abs(shootInput)) != 0)
             animator.SetBool("IsShooting", true);
@@ -54,6 +58,8 @@ public class PlayerController : MonoBehaviour
             Destroy(effect, 0.6f);
             if (lifePoints <= 0)
             {
+                float precision = (ScoreManager.scoreValue / (bulletShot * 10f)) * 100f;
+                Debug.Log("Precision: " + precision + "%");
                 gameOverText.SetActive(true);
                 SpawnEnemy.spawnAllowed = false;
                 Destroy(gameObject);
