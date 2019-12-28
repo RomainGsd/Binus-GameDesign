@@ -12,11 +12,13 @@ public class PlayerController : MonoBehaviour
     public Camera cam;
     public Rigidbody2D rb;
     Vector2 movement, mousePos;
-    public GameObject hitEffect, gameOverText;
+    public GameObject hitEffect, gameOverText, restartButton, goMenu;
 
     void Start()
     {
         gameOverText.SetActive(false);
+        restartButton.SetActive(false);
+        goMenu.SetActive(false);
     }
 
     // Update is called once per frame
@@ -61,6 +63,8 @@ public class PlayerController : MonoBehaviour
                 float precision = (ScoreManager.scoreValue / (bulletShot * 10f)) * 100f;
                 Debug.Log("Precision: " + precision + "%");
                 gameOverText.SetActive(true);
+                restartButton.SetActive(true);
+                goMenu.SetActive(true);
                 SpawnEnemy.spawnAllowed = false;
                 Destroy(gameObject);
             }
